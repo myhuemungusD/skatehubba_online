@@ -1,0 +1,25 @@
+node_modules
+dist
+.DS_Store
+server/public
+vite.config.ts.*
+*.tar.gz
+.release-notes.md
+
+# Build and deployment logs
+build.log
+firebase_deploy.log
+vercel_deploy.log
+build_summary.md
+deployment_summary.md
+
+# Vercel
+.vercel
+
+# Firebase
+.firebase
+firebase-debug.log
+firebase-debug.*.log# Ignore config files with secrets
+.config/gh/hosts.yml
+.config/replit/.semgrep/semgrep_rules.json
+.config/.semgrep/semgrep_rules.json
