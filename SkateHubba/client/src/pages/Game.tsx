@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useRoute } from 'wouter';
+import { useRoute, useLocation } from 'wouter';
 import { useAuth } from '@/hooks/useAuth';
 import { apiClient } from '@/lib/api';
 
@@ -27,6 +27,7 @@ export default function GamePage() {
 
 function GameList() {
   const { user } = useAuth();
+  const [, setLocation] = useLocation();
   const [joinCode, setJoinCode] = useState('');
 
   const { data: games, isLoading, refetch } = useQuery({
@@ -37,13 +38,16 @@ function GameList() {
   const createGame = useMutation({
     mutationFn: () => apiClient.post('/api/games', { maxPlayers: 2, isPublic: true }),
     onSuccess: (data: any) => {
-      window.location.href = `/game/${data.gameCode}`;
+      setLocation(`/game/${data.gameCode}`);
     },
   });
 
   const handleJoin = () => {
-    if (joinCode.trim()) {
-      window.location.href = `/game/${joinCode.toUpperCase()}`;
+    const sanitized = joinCode.trim().toUpperCase();
+    
+    // Validate format: alphanumeric 6-character code only
+    if (sanitized && /^[A-Z0-9]{6}$/.test(sanitized)) {
+      setLocation(`/game/${sanitized}`);
     }
   };
 
@@ -115,7 +119,7 @@ function GameList() {
                   </span>
                 </div>
                 <button
-                  onClick={() => window.location.href = `/game/${game.gameCode}`}
+                  onClick={() => setLocation(`/game/${game.gameCode}`)}
                   className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm"
                 >
                   Join

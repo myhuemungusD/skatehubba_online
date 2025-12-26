@@ -5,6 +5,7 @@ server/public
 vite.config.ts.*
 *.tar.gz
 .release-notes.md
+package-lock.json
 
 # Environment files (security)
 .env

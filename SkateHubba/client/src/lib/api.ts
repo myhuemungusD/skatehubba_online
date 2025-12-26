@@ -337,3 +337,22 @@ export const leaderboardApi = {
       { params: limit ? { limit } : undefined }
     ),
 };
+
+// ============ Unified API Client ============
+
+export const apiClient = {
+  get: <T>(endpoint: string, options?: Omit<RequestOptions, 'method'>) =>
+    request<T>(endpoint, { ...options, method: 'GET' }),
+  
+  post: <T>(endpoint: string, body?: unknown, options?: Omit<RequestOptions, 'method' | 'body'>) =>
+    request<T>(endpoint, { ...options, body, method: 'POST' }),
+  
+  put: <T>(endpoint: string, body?: unknown, options?: Omit<RequestOptions, 'method' | 'body'>) =>
+    request<T>(endpoint, { ...options, body, method: 'PUT' }),
+  
+  patch: <T>(endpoint: string, body?: unknown, options?: Omit<RequestOptions, 'method' | 'body'>) =>
+    request<T>(endpoint, { ...options, body, method: 'PATCH' }),
+  
+  delete: <T>(endpoint: string, options?: Omit<RequestOptions, 'method'>) =>
+    request<T>(endpoint, { ...options, method: 'DELETE' }),
+};
