@@ -5,6 +5,12 @@ server/public
 vite.config.ts.*
 *.tar.gz
 .release-notes.md
+package-lock.json
+
+# Environment files (security)
+.env
+.env.local
+.env.*.local
 
 # Build and deployment logs
 build.log
@@ -19,7 +25,7 @@ deployment_summary.md
 # Firebase
 .firebase
 firebase-debug.log
-firebase-debug.*.log# Ignore config files with secrets
-.config/gh/hosts.yml
-.config/replit/.semgrep/semgrep_rules.json
-.config/.semgrep/semgrep_rules.json
+firebase-debug.*.log
+
+# Local tool configs (don't commit these)
+.config/
