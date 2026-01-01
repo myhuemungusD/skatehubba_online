@@ -5,6 +5,7 @@ import express from "express";
 import helmet from "helmet";
 import fs from "node:fs";
 import path from "node:path";
+import rateLimit from "express-rate-limit";
 
 const app = express();
 
@@ -14,6 +15,15 @@ app.use(
     crossOriginEmbedderPolicy: false,
   })
 );
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per window
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use(limiter);
 app.use(compression());
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
