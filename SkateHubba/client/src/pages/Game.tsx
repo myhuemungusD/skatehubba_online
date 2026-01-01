@@ -30,7 +30,7 @@ function GameList() {
   const [, setLocation] = useLocation();
   const [joinCode, setJoinCode] = useState('');
 
-  const { data: games, isLoading, refetch } = useQuery({
+  const { data: games, isLoading } = useQuery({
     queryKey: ['games'],
     queryFn: () => apiClient.get<Game[]>('/api/games'),
   });
