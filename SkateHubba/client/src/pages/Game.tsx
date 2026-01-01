@@ -14,7 +14,6 @@ interface Game {
 }
 
 export default function GamePage() {
-  const { user } = useAuth();
   const [, params] = useRoute('/game/:code');
   const gameCode = params?.code;
 
