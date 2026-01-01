@@ -42,9 +42,17 @@ function GameList() {
   });
 
   const handleCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    
+    // Early return for empty input
+    if (!value) {
+      setJoinCode('');
+      return;
+    }
+    
     // 1. Force Uppercase
     // 2. Regex: Strip anything that isn't A-Z or 0-9
-    const sanitizedValue = e.target.value
+    const sanitizedValue = value
       .toUpperCase()
       .replace(/[^A-Z0-9]/g, '');
 
