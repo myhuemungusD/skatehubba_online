@@ -6,7 +6,6 @@ import {
   gameTurns,
   turnResponses,
   users,
-  userInventory,
 } from "../../shared/schema";
 import { eq, and, desc, sql, ne } from "drizzle-orm";
 import { nanoid } from "nanoid";
@@ -473,8 +472,6 @@ router.post("/:code/respond", async (req, res) => {
           ne(gameParticipants.userId, game[0].currentSetterId!)
         )
       );
-
-    const turn = await db.select().from(gameTurns).where(eq(gameTurns.id, turnId)).limit(1);
 
     const responses = await db
       .select()
