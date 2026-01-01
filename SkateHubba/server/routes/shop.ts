@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "../db";
 import { products, orders, orderItems, userInventory } from "../../shared/schema";
-import { eq, desc, and, sql, inArray } from "drizzle-orm";
+import { eq, desc, and, inArray } from "drizzle-orm";
 import Stripe from "stripe";
 import { nanoid } from "nanoid";
 import type { CartItem, CreateOrderRequest, ShopPaymentIntentRequest } from "../../shared/types";

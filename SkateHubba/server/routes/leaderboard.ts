@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "../db";
-import { users, leaderboardEntries, checkIns, spots, skateGames, gameParticipants } from "../../shared/schema";
-import { eq, desc, sql, and, gte, lte } from "drizzle-orm";
+import { users, checkIns, spots, skateGames } from "../../shared/schema";
+import { eq, desc, sql, and, gte } from "drizzle-orm";
 import type { LeaderboardFilters, LeaderboardUser, UserStats } from "../../shared/types";
 
 const router = Router();

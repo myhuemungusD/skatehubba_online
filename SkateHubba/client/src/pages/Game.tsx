@@ -14,7 +14,6 @@ interface Game {
 }
 
 export default function GamePage() {
-  const { user } = useAuth();
   const [, params] = useRoute('/game/:code');
   const gameCode = params?.code;
 
@@ -29,7 +28,7 @@ function GameList() {
   const { user } = useAuth();
   const [joinCode, setJoinCode] = useState('');
 
-  const { data: games, isLoading, refetch } = useQuery({
+  const { data: games, isLoading } = useQuery({
     queryKey: ['games'],
     queryFn: () => apiClient.get<Game[]>('/api/games'),
   });
