@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "../db";
-import { userInventory, products, users } from "../../shared/schema";
-import { eq, and, desc, isNotNull } from "drizzle-orm";
+import { userInventory, products } from "../../shared/schema";
+import { eq, and, desc } from "drizzle-orm";
 import type { EquipItemRequest, InventoryFilters } from "../../shared/types";
 
 const router = Router();

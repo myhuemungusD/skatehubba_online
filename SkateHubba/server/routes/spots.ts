@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { db } from "../db";
-import { spots, checkIns, users, leaderboardEntries } from "../../shared/schema";
+import { spots, checkIns, users } from "../../shared/schema";
 import { eq, and, desc, sql, asc } from "drizzle-orm";
 import type { CreateSpotRequest, CheckInRequest, SpotFilters } from "../../shared/types";
 
