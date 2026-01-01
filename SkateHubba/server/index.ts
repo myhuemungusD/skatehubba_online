@@ -11,7 +11,6 @@ const app = express();
 app.disable("x-powered-by");
 app.use(
   helmet({
-    contentSecurityPolicy: false,
     crossOriginEmbedderPolicy: false,
   })
 );
