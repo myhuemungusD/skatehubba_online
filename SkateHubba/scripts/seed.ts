@@ -1,6 +1,5 @@
 import { db } from "../server/db";
 import { products, spots, tutorialSteps } from "../shared/schema";
-import { sql } from "drizzle-orm";
 
 /**
  * Seed script for SkateHubba database
