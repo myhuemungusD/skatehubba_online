@@ -27,10 +27,10 @@ Provide centralized, type-safe initialization for Firebase services across clien
 1. Validate required environment variables at startup; throw descriptive errors for missing/invalid values before attempting initialization.
 2. Provide separate init functions for client and server; ensure client initialization is idempotent even across hot reloads.
 3. Support emulator configuration toggled by env flags for Auth, Firestore, and Storage without affecting production builds.
-4. Ensure Admin app uses minimal permission service account and caches credential loading; avoid reading from insecure paths.
+4. Ensure Admin app uses minimal permission service account and caches credential loading; avoid reading credentials from insecure paths (for example, project root or `.git`-tracked files, web-accessible/static asset directories, shared or world-readable temp folders); prefer secure storage such as environment variables, a managed secrets service, or a locked-down config directory outside the web root with restrictive filesystem permissions.
 5. Export typed helpers to access initialized services and wrap them with light instrumentation for observability.
 
 ## 🧪 Validation
 - Unit tests for env validation, singleton enforcement, and emulator toggles.
 - Integration smoke tests for connecting to emulators and verifying Auth/Firestore read-write in test mode.
-- Static analysis to ensure no secrets are logged or bundled in client builds.
+- Static analysis (e.g., ESLint rules for disallowing logging of env/config objects and CI secret-scanning of client bundles) to ensure no secrets are logged or bundled in client builds.

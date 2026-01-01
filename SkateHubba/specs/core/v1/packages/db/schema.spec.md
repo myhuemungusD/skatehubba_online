@@ -28,7 +28,7 @@ Model the persistent data layer for SkateHubba, covering users, spots, check-ins
 1. Tables: users, spots, checkins, achievements, user_achievements, saved_spots, sessions (for server sessions), and audit_logs.
 2. Enums: trick_status ["landed", "bailed", "retry"], stance ["regular", "goofy"], achievement_tier ["bronze", "silver", "gold", "legendary"].
 3. Relations: checkins link user + spot; saved_spots link user + spot unique; user_achievements link user + achievement with progress + unlocked_at.
-4. Constraints: prevent duplicate check-ins within short interval at DB layer via partial index on (user_id, spot_id, created_at bucket); enforce coordinate bounds for spots; cascade deletions carefully (e.g., spots cannot be deleted if checkins exist without archival flow).
+4. Constraints: prevent duplicate check-ins within a short interval (e.g., 15-minute window) at DB layer via partial index on (user_id, spot_id, created_at bucketed into 15-minute intervals); enforce coordinate bounds for spots; cascade deletions carefully (e.g., spots cannot be deleted while non-archived checkins exist—archival flow = soft-archive or mark related checkins as archived/inactive before allowing physical spot deletion, as defined in the Archival Flow docs/section).
 5. Timestamps: use timezone-aware timestamps with default now(); include updated_at triggers where needed.
 6. Privacy/security: store only signed URLs for media; no plaintext secrets; audit_logs table for mutations with actor + action + target.
 
