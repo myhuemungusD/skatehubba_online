@@ -41,6 +41,16 @@ function GameList() {
     },
   });
 
+  const handleCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 1. Force Uppercase
+    // 2. Regex: Strip anything that isn't A-Z or 0-9
+    const sanitizedValue = e.target.value
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, '');
+
+    setJoinCode(sanitizedValue);
+  };
+
   const handleJoin = () => {
     if (joinCode.trim()) {
       window.location.href = `/game/${joinCode.toUpperCase()}`;
@@ -80,10 +90,14 @@ function GameList() {
             <input
               type="text"
               value={joinCode}
-              onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
+              onChange={handleCodeChange}
               placeholder="GAME CODE"
-              className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-transparent focus:outline-none focus:border-orange-500"
               maxLength={6}
+              autoCapitalize="characters"
+              autoCorrect="off"
+              spellCheck="false"
+              inputMode="text"
+              className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-transparent focus:outline-none focus:border-orange-500 font-mono tracking-widest"
             />
             <button
               onClick={handleJoin}
