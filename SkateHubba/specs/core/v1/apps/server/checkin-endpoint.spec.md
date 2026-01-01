@@ -10,7 +10,7 @@ Expose secure HTTP endpoints for creating and retrieving skate spot check-ins wi
 
 ## ✅ Inputs
 - Authenticated user session (JWT/session cookie with uid)
-- Request payloads: spotId, trick name, status enum, optional videoUrl, device metadata, location coordinates
+- Request payloads: spotId, trick name, status enum, optional videoUrl (required for legendary spots), device metadata, location coordinates
 - Query params for pagination, filtering by status/spot, date ranges
 - Feature flags controlling media upload requirement or moderation rules
 
@@ -28,8 +28,8 @@ Expose secure HTTP endpoints for creating and retrieving skate spot check-ins wi
 
 ## 🧠 Business Logic
 1. Require authenticated user; reject or refresh session if invalid.
-2. POST /checkins: validate payload, confirm spot exists and is active, ensure coordinates are within allowed radius of spot, enforce status enum {landed, bailed, retry}, and optionally require videoUrl for legendary spots.
-3. Prevent spam via rate limits and duplication check (same user, spot, trick within short window).
+2. POST /checkins: validate payload, confirm spot exists and is active, ensure coordinates are within allowed radius of spot, enforce status enum {landed, bailed, retry}, and require videoUrl for legendary spots (spots marked with legendary=true flag must include a valid videoUrl in the check-in payload).
+3. Prevent spam via rate limits and duplication check (same user, spot, trick within a 10-minute window).
 4. Persist check-in with server timestamp, link to user + spot; compute derived fields (e.g., landed flag) and store mediaUrl if provided.
 5. GET /checkins: support pagination (cursor), filtering by spotId, status, date range, and userId; default sort by newest.
 6. Include signed URLs for media when needed; never expose raw storage paths.

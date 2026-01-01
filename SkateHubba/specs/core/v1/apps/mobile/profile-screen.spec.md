@@ -30,14 +30,14 @@ Provide a fast, offline-tolerant mobile profile experience that surfaces identit
 
 ## 🧠 Business Logic
 1. Guard screen behind auth; show blocking sign-in redirect if token invalid/expired with refresh attempt before logout.
-2. On focus, hydrate cached profile/check-ins from query cache, then refetch with stale-while-revalidate policy and exponential backoff on failure.
+2. On focus, hydrate cached profile/check-ins from query cache, then refetch with stale-while-revalidate policy (serve cached data immediately while refreshing in the background; see caching strategy documentation) and exponential backoff on failure.
 3. Render header with avatar, display name, stance, hometown, and QR/share CTA for profile link; avatar updates optimize for small payloads and retry on flaky networks.
 4. Stats cards: landed vs bailed ratio, streak days, total check-ins, favorite spot; calculations derived client-side with memoization.
 5. Activity feed: infinite scroll list with trick name, spot, date, status pill, optional video thumbnail; allow tap to open spot detail or video player.
 6. Saved spots: compact list with distance-from-user (if permission granted), offline fallback to last known location; include filter chips for legendary spots and difficulty.
 7. Achievements: badge carousel with locked/unlocked states and progress indicator; tapping reveals description in bottom sheet.
 8. Settings: edit display name/bio/stance, toggle notifications, link/unlink sign-in providers; persist via API SDK with optimistic updates and rollback on errors.
-9. Resilience: queue mutations offline, replay on reconnect; ensure state consistency by reconciling server version vs cached version IDs.
+9. Resilience: queue mutations offline, replay on reconnect; each profile/settings record carries a server-owned `versionId` (e.g., monotonically increasing revision or ETag) returned by the API and cached with the entity. When enqueueing a mutation, store the last-known `versionId` alongside the payload; on replay, send this `versionId` and compare it with the latest server version. If the server version differs, treat as a conflict: refetch current profile, attempt a field-level merge for non-destructive edits (e.g., notification toggles), otherwise prefer server as source of truth and reapply local change on top (last-write-wins) or surface a user-visible conflict message where automatic merge is unsafe.
 
 ## 🧪 Validation
 - Unit tests for data hooks, offline queue, and form schema validation.

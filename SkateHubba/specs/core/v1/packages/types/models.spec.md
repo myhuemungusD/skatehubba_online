@@ -27,10 +27,14 @@ Provide a single source of truth for shared domain types across web, mobile, ser
 1. Maintain discriminated unions for trick status, stance, and achievement tiers aligned with DB enums.
 2. Define DTOs for profile read/update, check-in create/read, spot summaries, saved spots, achievements, and feature flags.
 3. Encode error response model with standardized codes, messages, and correlationId.
-4. Provide helpers to convert between API payloads and internal models (e.g., camelCase ↔ snake_case if needed).
-5. All exports must be tree-shakeable and avoid runtime side effects; Zod schemas co-located with types.
+4. Provide helpers to convert between API payloads and internal models, with a clear naming convention:
+   - Standard convention: all TypeScript domain models and public API DTOs use `camelCase` field names.
+   - Use `snake_case` only when required by external systems (e.g., legacy APIs or database-level conventions), and perform conversion at the boundary.
+   - New APIs exposed by this codebase MUST use `camelCase` in their request/response payloads.
+5. All exports must be tree-shakeable and avoid runtime side effects; Zod schemas co-located with types in the same file, exported alongside their corresponding interfaces (e.g., `export interface User {}` followed by `export const UserSchema = z.object({...})`), organized by domain entity (users, spots, checkins, etc.).
 
 ## 🧪 Validation
-- Type tests (tsd or equivalent) ensuring compatibility with DB schema types.
+- Type tests using `tsd` ensuring compatibility with DB schema types.
 - Unit tests for Zod schema parsing, especially date/UUID validation and enum guards.
-- Contract tests shared with API SDK to prevent breaking changes.
+- Contract tests shared with API SDK to prevent breaking changes, implemented as a versioned contract test suite (e.g., Pact or equivalent)
+  that is published alongside the API SDK and run in CI for both API and SDK changes.

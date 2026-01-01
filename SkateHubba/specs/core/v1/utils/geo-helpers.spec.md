@@ -1,6 +1,6 @@
 # Spec: Geo Helpers
 📁 Path: /utils/geo/index.ts
-📦 Depends on: TypeScript, geospatial math utilities (haversine), Shared types
+📦 Depends on: TypeScript, geospatial math utilities (Haversine), Shared types
 🔁 Version: v1
 
 ---
@@ -11,11 +11,11 @@ Provide reliable, tested geospatial helpers for distance calculations, bounding-
 ## ✅ Inputs
 - Latitude/longitude pairs (degrees)
 - Spot metadata including coordinates and optional radius
-- Device geolocation readings with accuracy metadata
+- Device geolocation readings with accuracy metadata (horizontal accuracy in meters)
 
 ## 📤 Outputs
 - Functions: distanceBetweenPoints, isWithinRadius, boundingBoxFromPoint, normalizeCoordinates, formatDistance
-- Error handling for invalid coordinates and insufficient accuracy
+- Error handling for invalid coordinates and insufficient accuracy (accuracy > 50m considered insufficient for check-in validation)
 - Typed return values with units (meters/kilometers)
 
 ## 📦 Dependencies
@@ -32,5 +32,5 @@ Provide reliable, tested geospatial helpers for distance calculations, bounding-
 
 ## 🧪 Validation
 - Unit tests covering coordinate validation, edge cases near poles/antimeridian, and accuracy-aware radius checks.
-- Property-based tests for symmetry of distanceBetweenPoints and bounding box generation.
+- Property-based tests using fast-check for symmetry of distanceBetweenPoints and bounding box generation.
 - Performance check ensuring helper calls remain under 1ms per invocation in typical usage.
